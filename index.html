@@ -65,6 +65,7 @@
 
   <script>
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+    let activeCategory = "all";
 
     function renderTasks() {
       const taskList = document.getElementById("taskList");
@@ -95,15 +96,23 @@
           };
 
           // Priority label
-          const prioritySpan = document.createElement("span");
-          prioritySpan.className = "text-xs font-semibold px-2 py-1 rounded-full " +
-            (task.priority === "high" ? "bg-red-200 text-red-700" :
-             task.priority === "medium" ? "bg-yellow-200 text-yellow-700" :
-             "bg-blue-200 text-blue-700");
-          prioritySpan.textContent = task.priority.charAt(0).toUpperCase() + task.priority.slice(1);
+        const prioritySpan = document.createElement("span");
+        prioritySpan.className = "text-xs font-semibold px-2 py-1 rounded-full " +
+        (task.priority === "high" ? "bg-red-200 text-red-700" :
+        task.priority === "medium" ? "bg-yellow-200 text-yellow-700" :
+        "bg-blue-200 text-blue-700");
+         prioritySpan.textContent = task.priority.charAt(0).toUpperCase() + task.priority.slice(1);
 
-          taskRow.appendChild(input);
-          taskRow.appendChild(prioritySpan);
+        // Category label
+       const categorySpan = document.createElement("span");
+       categorySpan.className = "text-xs font-semibold px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200";
+       categorySpan.textContent = task.category.charAt(0).toUpperCase() + task.category.slice(1);
+
+       taskRow.appendChild(input);
+       taskRow.appendChild(prioritySpan);
+       taskRow.appendChild(categorySpan);
+
+        
 
           // Action buttons
           const actions = document.createElement("div");
@@ -133,16 +142,18 @@
     }
 
     function addTask() {
-      const input = document.getElementById("taskInput");
-      const priority = document.getElementById("priority").value;
-      const text = input.value.trim();
+  const input = document.getElementById("taskInput");
+  const priority = document.getElementById("priority").value;
+  const category = document.getElementById("category").value;
+  const text = input.value.trim();
 
-      if (text !== "") {
-        tasks.push({ text, completed: false, priority, editing: false });
-        input.value = "";
-        renderTasks();
-      }
-    }
+  if (text !== "") {
+    tasks.push({ text, completed: false, priority, category, editing: false });
+    input.value = "";
+    renderTasks();
+  }
+}
+
 
     function toggleTask(index) {
       tasks[index].completed = !tasks[index].completed;
