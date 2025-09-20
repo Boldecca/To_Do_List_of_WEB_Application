@@ -23,26 +23,29 @@
     </div>
 
     <!-- Input Row -->
-    <div class="flex flex-col sm:flex-row gap-2 mb-4">
-      <input id="taskInput" type="text" placeholder="Add a new task..."
-        class="flex-grow px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:bg-gray-800 dark:text-white" />
-      <select id="priority" class="px-3 py-2 border rounded-xl dark:bg-gray-800 dark:text-white">
+<div class="flex flex-col sm:flex-row gap-2 mb-4">
+  <!-- Task Input -->
+  <input id="taskInput" type="text" placeholder="Add a new task..."
+    class="flex-grow px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:bg-gray-800 dark:text-white" />
 
-     <!-- Category Selector -->
+  <!-- Category Dropdown -->
   <select id="category" class="px-3 py-2 border rounded-xl dark:bg-gray-800 dark:text-white">
-    <option value="work">Work 💼</option>
-    <option value="personal">Personal 🏠</option>
-    <option value="school">School 📚</option>
+    <option value="work">💼 Work</option>
+    <option value="personal">🏠 Personal</option>
+    <option value="school">📚 School</option>
   </select>
 
-    <!-- Priority Selector -->
-        <option value="low">Low 🔵</option>
-        <option value="medium">Medium 🟡</option>
-        <option value="high">High 🔴</option>
-      </select>
-      <button onclick="addTask()"
-        class="bg-indigo-500 text-white px-4 py-2 rounded-xl hover:bg-indigo-600 transition">Add</button>
-    </div>
+  <!-- Priority Dropdown -->
+  <select id="priority" class="px-3 py-2 border rounded-xl dark:bg-gray-800 dark:text-white">
+    <option value="low">🔵 Low</option>
+    <option value="medium">🟡 Medium</option>
+    <option value="high">🔴 High</option>
+  </select>
+
+  <!-- Add Button -->
+  <button onclick="addTask()"
+    class="bg-indigo-500 text-white px-4 py-2 rounded-xl hover:bg-indigo-600 transition">Add</button>
+</div>
 
 
     <!-- Search -->
@@ -71,6 +74,12 @@
       const taskList = document.getElementById("taskList");
       const searchValue = document.getElementById("searchInput").value.toLowerCase();
       taskList.innerHTML = "";
+
+      function filterCategory(category) {
+      activeCategory = category;
+       renderTasks();
+     }
+
 
       tasks
         .filter(task => task.text.toLowerCase().includes(searchValue))
