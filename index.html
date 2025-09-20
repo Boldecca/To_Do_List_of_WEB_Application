@@ -12,22 +12,25 @@
     }
   </script>
 </head>
-<body class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 dark:from-gray-900 dark:via-gray-800 dark:to-black min-h-screen flex items-center justify-center p-4 sm:p-8">
-
+<body class="bg-white dark:bg-gray-900 shadow-2xl rounded-2xl 
+            w-full max-w-md sm:max-w-lg p-4 sm:p-6 
+            transition-all duration-300 hover:scale-[1.01]">
   <!-- Main Card -->
   <div class="bg-white dark:bg-gray-900 shadow-2xl rounded-2xl w-full max-w-xl p-6 transition-all duration-300 hover:scale-[1.01]">
     <!-- Header -->
     <div class="flex justify-between items-center mb-6">
-      <h1 class="text-2xl sm:text-3xl font-bold text-indigo-600 dark:text-indigo-400">✨ My To-Do List</h1>
+      <h1 class="text-lg sm:text-xl font-bold text-indigo-600 dark:text-indigo-400">✨ My To-Do List</h1>
       <button id="darkToggle" class="bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded-xl text-sm hover:opacity-80 transition">🌙</button>
     </div>
 
    <!-- Input Row -->
-<div class="flex flex-col sm:flex-row gap-2 mb-4">
+<div class="flex flex-col sm:flex-row items-center gap-2 p-4 w-full max-w-xl mx-auto">
   <!-- Task Input -->
   <input id="taskInput" type="text" placeholder="Add a new task..."
-    class="flex-grow px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-400 dark:bg-gray-800 dark:text-white" />
-
+     class="flex flex-col sm:flex-row gap-2">
+  <!-- <select class="w-full sm:w-auto">...</select>
+  <select class="w-full sm:w-auto">...</select> -->
+</div>
   <!-- Right-side controls -->
   <div class="flex gap-2">
     <!-- Category Dropdown -->
@@ -46,7 +49,7 @@
 
     <!-- Add Button -->
     <button onclick="addTask()"
-      class="bg-indigo-500 text-white px-4 py-2 rounded-xl hover:bg-indigo-600 transition">Add</button>
+      class="px-2 py-2 bg-indigo-500 text-white font-semibold rounded-lg hover:bg-indigo-600 transition-colors w-full sm:w-auto">Add</button>
   </div>
 </div>
 
