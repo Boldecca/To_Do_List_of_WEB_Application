@@ -87,7 +87,6 @@
 
 
       tasks
-        tasks
   .filter(task => {
     const matchesSearch = task.text.toLowerCase().includes(searchValue);
     const matchesCategory = activeCategory === "all" || task.category === activeCategory;
@@ -95,25 +94,84 @@
   })
   .forEach((task, index) => {
     const li = document.createElement("li");
-    li.className = "flex flex-col sm:flex-row sm:items-center justify-between bg-gray-100 dark:bg-gray-800 px-4 py-3 rounded-xl shadow hover:shadow-md transition";
+    li.className =
+      "flex flex-col sm:flex-row sm:items-center justify-between bg-gray-100 dark:bg-gray-800 px-4 py-3 rounded-xl shadow hover:shadow-md transition";
 
     // Task row
     const taskRow = document.createElement("div");
     taskRow.className = "flex items-center gap-3 w-full";
 
-    // Task text
+    // Editable input
     const input = document.createElement("input");
     input.type = "text";
     input.value = task.text;
     input.readOnly = !task.editing;
-    input.className = "flex-grow bg-transparent border-0 focus:ring-0 " + 
+    input.className =
+      "flex-grow bg-transparent border-0 focus:ring-0 " +
       (task.completed ? "line-through text-gray-400" : "text-gray-700 dark:text-gray-200");
-    input.onchange = (e) => { task.text = e.target.value; task.editing = false; saveTasks(); renderTasks(); };
+    input.onchange = (e) => {
+      task.text = e.target.value;
+      task.editing = false;
+      saveTasks();
+      renderTasks();
+    };
+    input.onclick = () => {
+      if (!task.editing) toggleTask(index);
+    };
 
+    // Priority label
+    const prioritySpan = document.createElement("span");
+    prioritySpan.className =
+      "text-xs font-semibold px-2 py-1 rounded-full " +
+      (task.priority === "high"
+        ? "bg-red-200 text-red-700"
+        : task.priority === "medium"
+        ? "bg-yellow-200 text-yellow-700"
+        : "bg-blue-200 text-blue-700");
+    prioritySpan.textContent =
+      task.priority.charAt(0).toUpperCase() + task.priority.slice(1);
+
+    // Category label
+    const categorySpan = document.createElement("span");
+    categorySpan.className =
+      "text-xs font-semibold px-2 py-1 rounded-full bg-gray-200 dark:bg-gray-600 text-gray-700 dark:text-gray-200";
+    categorySpan.textContent =
+      task.category.charAt(0).toUpperCase() + task.category.slice(1);
+
+    // Action buttons
+    const actions = document.createElement("div");
+    actions.className = "flex gap-2 mt-2 sm:mt-0";
+
+    // Edit button
+    const editBtn = document.createElement("button");
+    editBtn.innerHTML = task.editing ? "💾" : "✏️";
+    editBtn.className = "text-indigo-500 hover:text-indigo-700";
+    editBtn.onclick = () => {
+      task.editing = !task.editing;
+      renderTasks();
+    };
+
+    // Delete button
+    const delBtn = document.createElement("button");
+    delBtn.textContent = "Delete";
+    delBtn.className =
+      "ml-3 px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600";
+    delBtn.onclick = () => {
+      tasks.splice(index, 1);
+      saveTasks();
+      renderTasks();
+    };
+
+    // Assemble row
     taskRow.appendChild(input);
+    taskRow.appendChild(prioritySpan);
+    taskRow.appendChild(categorySpan);
 
-    // Append row to li
+    actions.appendChild(editBtn);
+    actions.appendChild(delBtn);
+
     li.appendChild(taskRow);
+    li.appendChild(actions);
 
     taskList.appendChild(li);
   });
