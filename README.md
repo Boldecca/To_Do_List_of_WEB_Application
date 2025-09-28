@@ -37,6 +37,11 @@ This project demonstrates industry-relevant frontend practices such as DOM manip
 
 ---
 
+## 📷 Screenshots
+![Dashboard Screenshot](![alt text](image.png))
+
+---
+
 ## 📂 Folder Structure
 ```bash
 /to-do-app
