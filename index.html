@@ -25,17 +25,24 @@
   <!-- Full-width grid layout -->
   <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 py-6">
     <!-- Top bar -->
-    <div class="flex items-center justify-between mb-6">
-      <div class="flex items-center gap-3">
-        <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow ring-1 ring-indigo-400/30 flex items-center justify-center text-white font-semibold">TD</div>
-        <div>
-          <h1 class="text-xl sm:text-2xl font-semibold tracking-tight"><span class="bg-gradient-to-r from-indigo-500 to-purple-400 bg-clip-text text-transparent">My To‑Do List</span></h1>
-          <p class="text-xs text-gray-500 dark:text-gray-400">Stay organized, stay focused</p>
+    <div class="sticky top-0 z-50 -mx-4 sm:-mx-6 mb-6">
+      <div class="px-4 sm:px-6 py-3 bg-white/70 dark:bg-gray-900/70 backdrop-blur border-b border-gray-200 dark:border-gray-800 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 shadow ring-1 ring-indigo-400/30 flex items-center justify-center text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="h-6 w-6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l2.25 2.25L15 11.25" />
+              <rect x="3.5" y="4" width="17" height="16" rx="3" ry="3" class="fill-white/10" />
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-xl sm:text-2xl font-semibold tracking-tight"><span class="bg-gradient-to-r from-indigo-500 to-purple-400 bg-clip-text text-transparent">My To‑Do List</span></h1>
+            <p class="text-xs text-gray-500 dark:text-gray-400">Stay organized, stay focused</p>
+          </div>
         </div>
-      </div>
-      <div class="flex items-center gap-3">
-        <span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-gray-200 text-gray-800 border border-gray-300 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700"><span id="taskCount">0</span> tasks</span>
-        <button id="darkToggle" class="px-3 py-1.5 rounded-lg text-sm bg-gray-200 border border-gray-300 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 transition" aria-label="Toggle dark mode">🌙</button>
+        <div class="flex items-center gap-3">
+          <span class="inline-flex items-center gap-1 text-xs px-2 py-1 rounded-full bg-gray-200 text-gray-800 border border-gray-300 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-700"><span id="taskCount">0</span> tasks</span>
+          <button id="darkToggle" class="px-3 py-1.5 rounded-lg text-sm bg-gray-200 border border-gray-300 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-300 dark:hover:bg-gray-700 transition" aria-label="Toggle dark mode">🌙</button>
+        </div>
       </div>
     </div>
 
