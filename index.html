@@ -94,6 +94,47 @@
     </div>
   </div>
 
+  <!-- Additional features at the bottom -->
+  <div class="w-full max-w-7xl mx-auto px-4 sm:px-6 pb-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Quick Actions -->
+      <div class="lg:col-span-2">
+        <div class="bg-white border border-gray-200 dark:bg-gray-900/80 dark:border-gray-800 backdrop-blur shadow rounded-2xl p-5">
+          <h2 class="text-base font-medium mb-4">Quick Actions</h2>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="markAllCompleted()" class="px-3 py-2 rounded-lg bg-emerald-600 text-white hover:bg-emerald-500">Mark all completed</button>
+            <button onclick="clearCompleted()" class="px-3 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-500">Clear completed</button>
+            <button onclick="deleteAll()" class="px-3 py-2 rounded-lg bg-red-600 text-white hover:bg-red-500">Delete all</button>
+            <button onclick="exportTasks()" class="px-3 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-500">Export JSON</button>
+            <button onclick="document.getElementById('importFile').click()" class="px-3 py-2 rounded-lg bg-gray-200 text-gray-800 border border-gray-300 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-700">Import JSON</button>
+            <input id="importFile" type="file" accept="application/json" class="hidden" onchange="importTasks(event)" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div>
+        <div class="bg-white border border-gray-200 dark:bg-gray-900/80 dark:border-gray-800 backdrop-blur shadow rounded-2xl p-5">
+          <h2 class="text-base font-medium mb-4">Stats</h2>
+          <div class="grid grid-cols-3 gap-3 text-center">
+            <div class="rounded-lg border border-gray-200 dark:border-gray-800 p-3">
+              <div class="text-xs text-gray-500 dark:text-gray-400">Total</div>
+              <div id="statTotal" class="text-lg font-semibold">0</div>
+            </div>
+            <div class="rounded-lg border border-gray-200 dark:border-gray-800 p-3">
+              <div class="text-xs text-gray-500 dark:text-gray-400">Completed</div>
+              <div id="statCompleted" class="text-lg font-semibold">0</div>
+            </div>
+            <div class="rounded-lg border border-gray-200 dark:border-gray-800 p-3">
+              <div class="text-xs text-gray-500 dark:text-gray-400">Remaining</div>
+              <div id="statRemaining" class="text-lg font-semibold">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
     let activeCategory = "all";
@@ -110,6 +151,16 @@
       // Update header task count
       const taskCountEl = document.getElementById("taskCount");
       if (taskCountEl) taskCountEl.textContent = tasks.length.toString();
+      // Update stats
+      const total = tasks.length;
+      const completed = tasks.filter(t => t.completed).length;
+      const remaining = total - completed;
+      const sTotal = document.getElementById('statTotal');
+      const sComp = document.getElementById('statCompleted');
+      const sRem = document.getElementById('statRemaining');
+      if (sTotal) sTotal.textContent = total.toString();
+      if (sComp) sComp.textContent = completed.toString();
+      if (sRem) sRem.textContent = remaining.toString();
 
       tasks
   .filter(task => {
@@ -231,6 +282,64 @@
 
     function saveTasks() {
       localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
+    // Quick Actions
+    function markAllCompleted() {
+      tasks = tasks.map(t => ({ ...t, completed: true }));
+      saveTasks();
+      renderTasks();
+    }
+
+    function clearCompleted() {
+      tasks = tasks.map(t => ({ ...t, completed: false }));
+      saveTasks();
+      renderTasks();
+    }
+
+    function deleteAll() {
+      if (!confirm('Delete all tasks?')) return;
+      tasks = [];
+      saveTasks();
+      renderTasks();
+    }
+
+    function exportTasks() {
+      const blob = new Blob([JSON.stringify(tasks, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'tasks.json';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function importTasks(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          const data = JSON.parse(String(reader.result || '[]'));
+          if (!Array.isArray(data)) throw new Error('Invalid JSON');
+          tasks = data.map(item => ({
+            text: String(item.text || ''),
+            completed: Boolean(item.completed),
+            priority: ['low','medium','high'].includes(item.priority) ? item.priority : 'low',
+            category: ['work','personal','school'].includes(item.category) ? item.category : 'personal',
+            editing: false,
+          })).filter(t => t.text.trim() !== '');
+          saveTasks();
+          renderTasks();
+        } catch (e) {
+          alert('Failed to import: ' + (e && e.message ? e.message : 'Unknown error'));
+        }
+      };
+      reader.readAsText(file);
+      // Reset input so same file can be selected again
+      event.target.value = '';
     }
 
     // Dark mode toggle
