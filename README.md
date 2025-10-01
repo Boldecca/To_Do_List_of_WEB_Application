@@ -38,7 +38,7 @@ This project demonstrates industry-relevant frontend practices such as DOM manip
 ---
 
 ## 📷 Screenshots
-![Dashboard Screenshot](![alt text](image.png))
+![Dashboard Screenshot]![alt text](image-1.png)
 
 ---
 
